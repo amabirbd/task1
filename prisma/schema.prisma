@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String          @id @default(cuid())
+  name                 String
+  email                String          @unique
+  password             String?
+  verifyToken          String?         @unique
+  isVerified           Boolean         @default(false)
+  verifyTokenExpiry    DateTime?
+  resetToken           String?
+  image                String?
+  resetTokenExpiry     DateTime?
+  isTwoFactorEnabled   Boolean?          @default(false)
+  twoFactorSecret      String?
+  role                 Role            @default(USER)
+  discussions          Discussion[]
+  replies              Reply[]
+}
+
+enum Role {
+  USER
+  MODERATOR
+}
+
+model session {
+  sid    String   @id @map("sid")
+  sess   Json     @map("sess")
+  expire DateTime @map("expire")
+
+  @@unique([sid])
+}
+
+model Discussion {
+  id                   String          @id @default(cuid())
+  title                String
+  description          String
+  createdAt            DateTime        @default(now())
+  createdBy            User            @relation(fields: [userId], references: [id])
+  userId               String
+  replies              Reply[]
+}
+
+model Reply {
+  id                   String          @id @default(cuid())
+  text                 String
+  createdAt            DateTime        @default(now())
+  createdBy            User            @relation(fields: [userId], references: [id])
+  userId               String
+  discussion           Discussion      @relation(fields: [discussionId], references: [id])
+  discussionId         String
+}
