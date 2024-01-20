@@ -2,7 +2,6 @@ const express = require("express");
 const {
   updateProfile,
   changePassword,
-  forgotPassword,
   resetPassword,
   getAllUsers,
   userData,
@@ -20,7 +19,6 @@ router.get("/", (req, res) => {
 
 router.post("/updateProfile", isAuthenticatedUser, updateProfile);
 router.post("/changePassword", isAuthenticatedUser, changePassword);
-router.post("/forgotPassword", forgotPassword);
 router.post("/resetPassword", resetPassword);
 
 router.get("/getAllUsers", getAllUsers);

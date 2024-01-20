@@ -6,7 +6,6 @@ const {
   register,
   verifyEmail,
   login,
-  googleSignInOrSignUp,
   logout,
   resendVerificationMail,
 } = require("../controllers/user.controller");
@@ -23,7 +22,6 @@ router.post("/resend-verification-mail", resendVerificationMail);
 router.get("/verifyEmail", verifyEmail);
 
 router.post("/login", login);
-router.post("/googleSignIn", googleSignInOrSignUp);
 
 router.get("/logout", logout);
 
